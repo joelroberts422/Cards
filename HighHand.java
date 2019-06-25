@@ -7,6 +7,19 @@ public class HighHand {
 
 	private List<Card> highCard;
 	
+	public static void main(String[] args) {
+		ArrayList<Card> test = new ArrayList<Card>();
+		test.add(new Card("clubs", 3));
+		test.add(new Card("clubs", 4));
+		test.add(new Card("clubs", 5));
+		test.add(new Card("clubs", 6));
+		test.add(new Card("clubs", 7));
+		
+		System.out.println(test);
+		System.out.println(isStraight(test));
+		
+	}
+	
 	public static int[] multiples(ArrayList<Card> c) {
 		
 		// size of ret may vary
@@ -88,5 +101,39 @@ public class HighHand {
 		}
 		
 		return ret;
+	}
+	
+	// Straight of flush
+	public static int[] sflush(ArrayList<Card> c) {
+		int[] ret = new int[6];
+		
+		if (isFlush(c)) {
+			if (isStraight(c)) {
+				ret[0] = 0;
+				ret[1] = c.get(0).getValue();
+				return ret;
+			} else {
+				for (int i = 0; i < 5 ; ++i)
+					ret[i+2] = c.get(4-i).getValue();
+				return ret;
+			}
+		}
+		
+		if (isStraight(c)) ;
+		return ret;
+		
+		
+	}
+	
+	private static boolean isStraight(ArrayList<Card> c) {
+		for (int i = 0; i < 3; ++i) 
+			if (c.get(i).getValue() != c.get(i+1).getValue() - 1) return false;
+		return true;
+	}
+	
+	private static boolean isFlush(ArrayList<Card> c) {
+		for (int i = 0; i < 3; ++i) 
+			if (!c.get(i).getSuit().equals(c.get(i+1).getSuit())) return false;
+		return true;
 	}
 }
